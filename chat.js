@@ -1,3 +1,5 @@
+const GOOGLE_SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxRgm6U90za0GDSqynlE7gJ2EMvACnx9d2jfad5nY6XR8IdI4hr4gPFCW9J5SJuIsbR/exec";
+
 const chatToggle = document.getElementById("chat-toggle");
 const chatWindow = document.getElementById("chat-window");
 const chatClose = document.getElementById("chat-close");
@@ -23,7 +25,8 @@ chatForm.addEventListener("submit", async (event) => {
   addMessage(text, "user");
   chatInput.value = "";
 
-  const reply = getDemoReply(text);
+  const reply = await getDemoReply(text);
+
   setTimeout(() => {
     addMessage(reply, "bot");
   }, 500);
@@ -37,40 +40,50 @@ function addMessage(text, sender) {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-function getDemoReply(text) {
+async function getDemoReply(text) {
   const lower = text.toLowerCase();
 
   if (
     lower.includes("martín") ||
+    lower.includes("martin") ||
     lower.includes("envapack") ||
     lower.includes("500") ||
     lower.includes("whatsapp") ||
     lower.includes("email")
   ) {
-    saveDemoLead({
-      fecha: new Date().toLocaleString("es-AR"),
-      nombre: "Martín",
+    const lead = {
+      nombre: "Martín López",
       empresa: "Envapack",
-      contacto: "11-5555-5555",
+      cargo: "",
+      telefono: "11-5555-5555",
       email: "martin@envapack.com",
-      tipo: "Cotización / compra recurrente",
-      necesidad: "500 unidades mensuales de un componente técnico para línea de producción",
+      localidad: "San Martín",
+      tipoConsulta: "Cotización / compra recurrente",
+      productoNecesidad: "500 unidades mensuales de un componente técnico para línea de producción",
+      cantidad: "500 unidades mensuales",
       urgencia: "No especificada",
-      estado: "Nuevo lead"
-    });
+      prioridad: "Alta",
+      estado: "Nuevo lead",
+      observaciones: "Solicita contacto de un vendedor. Tiene compra recurrente mensual.",
+      conversacion: text
+    };
+
+    await saveDemoLead(lead);
 
     return `Perfecto, Martín. Dejé registrada tu consulta para seguimiento comercial.
 
 Resumen de consulta:
-- Nombre: Martín
+- Nombre: Martín López
 - Empresa: Envapack
 - Contacto: 11-5555-5555
 - Email: martin@envapack.com
+- Zona: San Martín
 - Tipo de consulta: Cotización / compra recurrente
 - Necesidad: 500 unidades mensuales de un componente técnico para línea de producción
+- Prioridad: Alta
 - Estado: Nuevo lead
 
-En una implementación real, esta información se enviaría automáticamente a Google Sheets.`;
+El equipo comercial podrá revisar la consulta en la planilla de seguimiento.`;
   }
 
   if (lower.includes("cotizar") || lower.includes("cotización") || lower.includes("precio")) {
@@ -119,12 +132,26 @@ Si querés, podés escribirme algo como:
 “Soy Martín de Envapack. Necesitamos cotizar 500 unidades mensuales de un componente técnico. Mi WhatsApp es 11-5555-5555 y mi email es martin@envapack.com.”`;
 }
 
-// Esta función simula el registro local de leads.
-// En la versión real, este punto se reemplaza por una llamada al backend,
-// que luego enviará los datos a Google Sheets.
-function saveDemoLead(lead) {
+async function saveDemoLead(lead) {
   const leads = JSON.parse(localStorage.getItem("demoLeads") || "[]");
-  leads.push(lead);
+  leads.push({
+    fecha: new Date().toLocaleString("es-AR"),
+    ...lead
+  });
   localStorage.setItem("demoLeads", JSON.stringify(leads));
-  console.log("Lead demo registrado:", lead);
+
+  try {
+    await fetch(GOOGLE_SHEETS_WEB_APP_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify(lead)
+    });
+
+    console.log("Lead enviado a Google Sheets:", lead);
+  } catch (error) {
+    console.error("No se pudo enviar el lead a Google Sheets:", error);
+  }
 }
