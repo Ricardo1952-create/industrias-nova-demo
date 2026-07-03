@@ -54,14 +54,14 @@ async function getDemoReply(text) {
     const lead = {
       nombre: "Martín López",
       empresa: "Envapack",
-      cargo: "",
+      cargo: "Compras",
       telefono: "11-5555-5555",
       email: "martin@envapack.com",
       localidad: "San Martín",
       tipoConsulta: "Cotización / compra recurrente",
       productoNecesidad: "500 unidades mensuales de un componente técnico para línea de producción",
       cantidad: "500 unidades mensuales",
-      urgencia: "No especificada",
+      urgencia: "Esta semana",
       prioridad: "Alta",
       estado: "Nuevo lead",
       observaciones: "Solicita contacto de un vendedor. Tiene compra recurrente mensual.",
@@ -75,11 +75,14 @@ async function getDemoReply(text) {
 Resumen de consulta:
 - Nombre: Martín López
 - Empresa: Envapack
+- Cargo/Área: Compras
 - Contacto: 11-5555-5555
 - Email: martin@envapack.com
 - Zona: San Martín
 - Tipo de consulta: Cotización / compra recurrente
 - Necesidad: 500 unidades mensuales de un componente técnico para línea de producción
+- Cantidad: 500 unidades mensuales
+- Urgencia: Esta semana
 - Prioridad: Alta
 - Estado: Nuevo lead
 
