@@ -1,9 +1,15 @@
-# Industrias Nova — Demo directa del asistente
+# Industrias Nova — Demo guiada y rígida
 
-Esta versión elimina la landing extensa y muestra directamente el asistente comercial.
+Esta versión usa un recorrido comercial fijo.
 
-## Experiencia
-- El visitante entra y ve solamente la demo del chat.
-- El campo para escribir queda listo de inmediato.
-- No hay que buscar una burbuja ni recorrer la página.
-- Sigue siendo una simulación local, sin conexión real a OpenAI o Google Sheets.
+## Flujo
+1. Necesidad o producto.
+2. Cantidad.
+3. Compra única o recurrente.
+4. Localidad o zona.
+5. Urgencia.
+6. Nombre y empresa.
+7. WhatsApp o email.
+8. Resumen final.
+
+La demo no confirma un registro antes de completar los datos necesarios.
