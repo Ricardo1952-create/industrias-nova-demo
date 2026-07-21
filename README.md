@@ -1,28 +1,9 @@
-# Industrias Nova - Landing demo v2
+# Industrias Nova — Demo directa del asistente
 
-Versión corregida de la landing demo.
+Esta versión elimina la landing extensa y muestra directamente el asistente comercial.
 
-## Cambios incluidos
-
-- La tabla visible ahora muestra teléfono/WhatsApp y email.
-- La ventana del chat es un poco más chica para tapar menos contenido.
-- Sigue siendo una demo simulada: todavía no está conectada a OpenAI ni a Google Sheets real.
-
-## Cómo probarla
-
-Abrí `index.html` en Chrome.
-
-Mensaje sugerido para probar la burbuja:
-
-Soy Martín de Envapack. Necesitamos cotizar 500 unidades mensuales de un componente técnico para una línea de producción. Estamos en San Martín y queremos que nos contacte un vendedor. Mi WhatsApp es 11-5555-5555 y mi email es martin@envapack.com.
-
-## Próximo paso
-
-Conectar la burbuja al backend, al asistente real y a Google Sheets.
-
-
-## Cambio de experiencia de demo
-
-- El chat se abre automáticamente al cargar la página.
-- El botón principal ahora dice “Probar el asistente ahora” y abre el chat.
-- El saludo inicial explica de inmediato que la demo es interactiva.
+## Experiencia
+- El visitante entra y ve solamente la demo del chat.
+- El campo para escribir queda listo de inmediato.
+- No hay que buscar una burbuja ni recorrer la página.
+- Sigue siendo una simulación local, sin conexión real a OpenAI o Google Sheets.

@@ -3,176 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Industrias Nova | Demo Asistente Comercial</title>
+  <title>Demo Asistente Comercial | Industrias Nova</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav">
-      <div class="brand">
-        <div class="brand-mark">N</div>
-        <div>
-          <strong>Industrias Nova</strong>
-          <span>Demo industrial B2B</span>
-        </div>
-      </div>
-      <nav>
-        <a href="#servicios">Servicios</a>
-        <a href="#asistente">Asistente</a>
-        <a href="#registro">Registro</a>
-      </nav>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <p class="eyebrow">Demo genérica para empresas industriales</p>
-          <h1>Asistente comercial para fabricantes, distribuidores y proveedores B2B.</h1>
-          <p class="lead">
-            Esta landing muestra cómo una empresa industrial puede atender consultas desde su web,
-            pedir datos comerciales y registrar oportunidades para seguimiento del equipo de ventas.
-          </p>
-          <div class="hero-actions">
-            <button id="open-demo-chat" class="btn primary" type="button">Probar el asistente ahora</button>
-            <a class="btn secondary" href="#registro">Qué registra</a>
-          </div>
-        </div>
-
-        <div class="hero-card">
-          <h2>Consulta comercial típica</h2>
-          <p>
-            “Necesito cotizar 500 unidades mensuales de un componente técnico para una línea de producción.”
-          </p>
-          <ul>
-            <li>El asistente responde y orienta.</li>
-            <li>Pide datos útiles para cotizar.</li>
-            <li>Prepara el registro para Google Sheets.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="servicios" class="section">
-      <div class="container">
-        <p class="eyebrow">Empresa ficticia</p>
-        <h2>Una demo aplicable a distintos rubros industriales</h2>
-        <div class="cards">
-          <article class="card">
-            <h3>Fabricantes</h3>
-            <p>Consultas por producción, componentes, desarrollos especiales, compras por cantidad o provisión recurrente.</p>
-          </article>
-          <article class="card">
-            <h3>Distribuidores</h3>
-            <p>Consultas por disponibilidad, productos técnicos, repuestos, zonas de entrega, stock o catálogos.</p>
-          </article>
-          <article class="card">
-            <h3>Proveedores industriales</h3>
-            <p>Consultas de empresas, áreas de compras, mantenimiento, ingeniería, producción o abastecimiento.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="asistente" class="section alt">
-      <div class="container split">
-        <div>
-          <p class="eyebrow">Cómo funciona</p>
-          <h2>El asistente no solo responde: ordena la oportunidad.</h2>
-          <p>
-            En una implementación real, la burbuja se adapta a la empresa, sus productos,
-            vendedores, zonas comerciales y proceso de seguimiento.
-          </p>
-        </div>
-        <div class="process">
-          <div><strong>1</strong><span>Recibe la consulta desde la web.</span></div>
-          <div><strong>2</strong><span>Pide datos comerciales importantes.</span></div>
-          <div><strong>3</strong><span>Identifica el tipo de consulta.</span></div>
-          <div><strong>4</strong><span>Registra la oportunidad en Google Sheets.</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="registro" class="section">
-      <div class="container">
-        <p class="eyebrow">Registro comercial</p>
-        <h2>Ejemplo de información que queda en la planilla</h2>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Fecha</th>
-                <th>Empresa</th>
-                <th>Contacto</th>
-                <th>Teléfono / WhatsApp</th>
-                <th>Email</th>
-                <th>Tipo</th>
-                <th>Necesidad</th>
-                <th>Urgencia</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>01/07/2026</td>
-                <td>Envapack</td>
-                <td>Martín López</td>
-                <td>11-5555-5555</td>
-                <td>martin@envapack.com</td>
-                <td>Cotización</td>
-                <td>500 unidades mensuales de componente técnico</td>
-                <td>Esta semana</td>
-                <td>Nuevo lead</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="note">
-          En esta primera versión la burbuja es demo. El siguiente paso es conectarla al backend,
-          al asistente real y a Google Sheets.
+  <main class="demo-shell">
+    <section class="demo-intro">
+      <div class="brand-mark">N</div>
+      <div>
+        <p class="eyebrow">Demo interactiva</p>
+        <h1>Probá el asistente comercial</h1>
+        <p class="intro-copy">
+          Escribí una consulta como si fueras un potencial cliente de una empresa industrial.
         </p>
       </div>
     </section>
+
+    <section class="chat-panel" aria-label="Asistente comercial de Industrias Nova">
+      <header class="chat-header">
+        <div>
+          <strong>Asistente comercial</strong>
+          <span>Industrias Nova · Demo industrial B2B</span>
+        </div>
+        <span class="status">En línea 24/7</span>
+      </header>
+
+      <div id="chat-messages" class="chat-messages" aria-live="polite">
+        <div class="message bot">
+Hola, soy el asistente comercial de Industrias Nova.
+
+Podés probarme ahora mismo. Escribime una consulta sobre una cotización, disponibilidad, repuestos, productos técnicos o contacto con ventas.
+
+Por ejemplo:
+“Necesitamos cotizar 500 unidades mensuales de un componente técnico.”
+        </div>
+      </div>
+
+      <form id="chat-form" class="chat-form">
+        <label class="sr-only" for="chat-input">Escribí tu consulta</label>
+        <input
+          id="chat-input"
+          type="text"
+          placeholder="Escribí tu consulta..."
+          autocomplete="off"
+          autofocus
+        />
+        <button type="submit">Enviar</button>
+      </form>
+    </section>
+
+    <p class="demo-note">
+      Industrias Nova es una empresa ficticia creada únicamente para mostrar el funcionamiento.
+    </p>
   </main>
-
-  <footer>
-    <div class="container">
-      <p>Industrias Nova es una empresa ficticia creada para demostraciones comerciales.</p>
-    </div>
-  </footer>
-
-  <button id="chat-toggle" class="chat-toggle" aria-label="Abrir asistente comercial">
-    💬
-  </button>
-
-  <section id="chat-window" class="chat-window" aria-live="polite">
-    <div class="chat-header">
-      <div>
-        <strong>Asistente comercial</strong>
-        <span>Industrias Nova</span>
-      </div>
-      <button id="chat-close" aria-label="Cerrar chat">×</button>
-    </div>
-
-    <div id="chat-messages" class="chat-messages">
-      <div class="message bot">
-        Hola, soy el asistente comercial de Industrias Nova. Esta es una demo interactiva:
-        podés escribirme ahora mismo una consulta sobre cotizaciones, disponibilidad,
-        productos técnicos o contacto con ventas. ¿Qué necesitás consultar?
-      </div>
-    </div>
-
-    <form id="chat-form" class="chat-form">
-      <input
-        id="chat-input"
-        type="text"
-        placeholder="Escribí tu consulta..."
-        autocomplete="off"
-      />
-      <button type="submit">Enviar</button>
-    </form>
-  </section>
 
   <script src="chat.js"></script>
 </body>

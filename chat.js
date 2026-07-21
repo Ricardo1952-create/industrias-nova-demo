@@ -1,35 +1,12 @@
-const chatToggle = document.getElementById("chat-toggle");
-const chatWindow = document.getElementById("chat-window");
-const chatClose = document.getElementById("chat-close");
 const chatForm = document.getElementById("chat-form");
 const chatInput = document.getElementById("chat-input");
 const chatMessages = document.getElementById("chat-messages");
 
-const openDemoChatButton = document.getElementById("open-demo-chat");
-
-function openChat() {
-  chatWindow.classList.add("open");
-  window.setTimeout(() => chatInput.focus(), 100);
-}
-
-function closeChat() {
-  chatWindow.classList.remove("open");
-}
-
-chatToggle.addEventListener("click", openChat);
-chatClose.addEventListener("click", closeChat);
-
-if (openDemoChatButton) {
-  openDemoChatButton.addEventListener("click", openChat);
-}
-
-// La demo abre el chat automáticamente para que el visitante pueda probarla
-// sin tener que buscar la burbuja en la página.
 window.addEventListener("load", () => {
-  window.setTimeout(openChat, 500);
+  chatInput.focus();
 });
 
-chatForm.addEventListener("submit", async (event) => {
+chatForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const text = chatInput.value.trim();
@@ -39,9 +16,7 @@ chatForm.addEventListener("submit", async (event) => {
   chatInput.value = "";
 
   const reply = getDemoReply(text);
-  setTimeout(() => {
-    addMessage(reply, "bot");
-  }, 500);
+  window.setTimeout(() => addMessage(reply, "bot"), 500);
 });
 
 function addMessage(text, sender) {
@@ -62,61 +37,46 @@ function getDemoReply(text) {
     lower.includes("whatsapp") ||
     lower.includes("email")
   ) {
-    saveDemoLead({
-      fecha: new Date().toLocaleString("es-AR"),
-      nombre: "Martín",
-      empresa: "Envapack",
-      contacto: "11-5555-5555",
-      email: "martin@envapack.com",
-      tipo: "Cotización / compra recurrente",
-      necesidad: "500 unidades mensuales de un componente técnico para línea de producción",
-      urgencia: "No especificada",
-      estado: "Nuevo lead"
-    });
+    return `Perfecto. Dejé preparada la consulta para el seguimiento comercial.
 
-    return `Perfecto, Martín. Dejé registrada tu consulta para seguimiento comercial.
-
-Resumen de consulta:
-- Nombre: Martín
+Resumen:
 - Empresa: Envapack
-- Contacto: 11-5555-5555
-- Email: martin@envapack.com
-- Tipo de consulta: Cotización / compra recurrente
-- Necesidad: 500 unidades mensuales de un componente técnico para línea de producción
-- Estado: Nuevo lead
+- Necesidad: 500 unidades mensuales de un componente técnico
+- Tipo: Cotización / compra recurrente
+- Estado: Nuevo potencial cliente
 
-En una implementación real, esta información se enviaría automáticamente a Google Sheets.`;
+En una implementación real, el sistema también pediría nombre, teléfono, email, urgencia y otros datos necesarios, los registraría en una planilla y avisaría al responsable comercial.`;
   }
 
   if (lower.includes("cotizar") || lower.includes("cotización") || lower.includes("precio")) {
     return `Puedo ayudarte a preparar la consulta para el área comercial.
 
-Para cotizar correctamente, necesitaría estos datos:
-- Producto, insumo o componente que necesitás
+Para cotizar correctamente, necesitaría:
+- Producto, insumo o componente
 - Cantidad estimada
-- Si es compra única o recurrente
+- Compra única o recurrente
 - Localidad o zona de entrega
 - Urgencia
-- Nombre, empresa, WhatsApp y email de contacto
+- Nombre, empresa, WhatsApp y email
 
-No te paso un precio automático porque depende de especificaciones, cantidad, disponibilidad y condiciones comerciales.`;
+Con esos datos, la oportunidad queda ordenada para que un vendedor pueda continuarla.`;
   }
 
   if (lower.includes("stock") || lower.includes("disponibilidad") || lower.includes("repuesto")) {
-    return `Para verificar disponibilidad, el equipo comercial necesita identificar bien el producto.
+    return `Para verificar disponibilidad, necesito identificar bien el producto.
 
-¿Me podés indicar?
+Indicame:
 - Producto, repuesto o código
-- Marca/modelo si corresponde
+- Marca y modelo, si corresponde
 - Cantidad
 - Localidad
-- Nombre, empresa y contacto
+- Nombre, empresa y datos de contacto
 
-Con esos datos puedo dejar la consulta registrada para seguimiento.`;
+Después, la consulta puede quedar registrada y ser derivada al responsable correspondiente.`;
   }
 
   if (lower.includes("mensual") || lower.includes("proveedor") || lower.includes("recurrente")) {
-    return `Entiendo. Una compra recurrente es una oportunidad importante para el equipo comercial.
+    return `Una compra recurrente es una oportunidad importante.
 
 Para registrarla bien, necesito:
 - Tipo de producto o insumo
@@ -125,21 +85,11 @@ Para registrarla bien, necesito:
 - Zona de entrega
 - Nombre, empresa, WhatsApp y email
 
-Con esa información queda ordenada para seguimiento comercial.`;
+Con esa información queda preparada para el seguimiento comercial.`;
   }
 
-  return `Gracias por tu consulta. Para orientarte mejor, contame qué necesitás: cotización, disponibilidad, ficha técnica, repuesto, compra recurrente o contacto con ventas.
+  return `Gracias por tu consulta. Contame un poco más qué necesitás: una cotización, disponibilidad, una ficha técnica, un repuesto, una compra recurrente o contacto con ventas.
 
-Si querés, podés escribirme algo como:
-“Soy Martín de Envapack. Necesitamos cotizar 500 unidades mensuales de un componente técnico. Mi WhatsApp es 11-5555-5555 y mi email es martin@envapack.com.”`;
-}
-
-// Esta función simula el registro local de leads.
-// En la versión real, este punto se reemplaza por una llamada al backend,
-// que luego enviará los datos a Google Sheets.
-function saveDemoLead(lead) {
-  const leads = JSON.parse(localStorage.getItem("demoLeads") || "[]");
-  leads.push(lead);
-  localStorage.setItem("demoLeads", JSON.stringify(leads));
-  console.log("Lead demo registrado:", lead);
+También podés probar escribiendo:
+“Necesitamos cotizar 500 unidades mensuales de un componente técnico.”`;
 }
