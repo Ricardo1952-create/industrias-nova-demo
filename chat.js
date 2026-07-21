@@ -131,6 +131,15 @@ function handleQuoteSubmit(event) {
   const form = event.currentTarget;
   if (!form.reportValidity()) return;
 
+  const formData = new FormData(form);
+  const record = {
+    empresa: formData.get("empresa"),
+    cuit: formData.get("cuit"),
+    nombre: formData.get("nombre"),
+    whatsapp: formData.get("whatsapp"),
+    trabajo: formData.get("trabajo")
+  };
+
   completed = true;
 
   form.querySelectorAll("input, textarea, button").forEach((element) => {
@@ -146,6 +155,8 @@ function handleQuoteSubmit(event) {
       "success"
     );
 
+    showRegistration(record);
+
     window.setTimeout(() => {
       addMessage(
         "Además, en el agente real que prepare para tu empresa, también podrá responder consultas sobre disponibilidad, repuestos, horarios de atención presencial, productos técnicos o pedidos de contacto con ventas.",
@@ -154,4 +165,58 @@ function handleQuoteSubmit(event) {
       );
     }, 450);
   }, 350);
+}
+
+function showRegistration(record) {
+  const card = document.createElement("section");
+  card.className = "registration-card";
+
+  const escapeHtml = (value) => {
+    const div = document.createElement("div");
+    div.textContent = value || "";
+    return div.innerHTML;
+  };
+
+  card.innerHTML = `
+    <h2>Así quedó registrada la consulta</h2>
+    <p class="registration-subtitle">
+      Este es un ejemplo de cómo la información quedaría guardada en la planilla de seguimiento comercial.
+    </p>
+
+    <table class="registration-table">
+      <tbody>
+        <tr>
+          <th>Fecha y hora</th>
+          <td>${escapeHtml(new Date().toLocaleString("es-AR"))}</td>
+        </tr>
+        <tr>
+          <th>Empresa</th>
+          <td>${escapeHtml(record.empresa)}</td>
+        </tr>
+        <tr>
+          <th>CUIT</th>
+          <td>${escapeHtml(record.cuit)}</td>
+        </tr>
+        <tr>
+          <th>Nombre</th>
+          <td>${escapeHtml(record.nombre)}</td>
+        </tr>
+        <tr>
+          <th>WhatsApp</th>
+          <td>${escapeHtml(record.whatsapp)}</td>
+        </tr>
+        <tr>
+          <th>Trabajo a cotizar</th>
+          <td>${escapeHtml(record.trabajo)}</td>
+        </tr>
+        <tr>
+          <th>Estado</th>
+          <td><span class="registration-status">Nueva consulta</span></td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+
+  chatMessages.appendChild(card);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
 }

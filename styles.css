@@ -329,3 +329,85 @@ h1 {
     padding: 0 15px;
   }
 }
+
+
+.registration-card {
+  max-width: 96%;
+  margin: 0 0 14px;
+  padding: 18px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.registration-card h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.registration-subtitle {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.registration-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.registration-table th,
+.registration-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.registration-table th {
+  width: 34%;
+  color: var(--muted);
+  font-weight: 700;
+  background: #f8fafc;
+}
+
+.registration-status {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: var(--success-bg);
+  border: 1px solid var(--success-line);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .registration-card {
+    max-width: 100%;
+    padding: 14px;
+  }
+
+  .registration-table,
+  .registration-table tbody,
+  .registration-table tr,
+  .registration-table th,
+  .registration-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .registration-table tr {
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .registration-table th {
+    border-bottom: 0;
+    padding-bottom: 4px;
+  }
+
+  .registration-table td {
+    padding-top: 4px;
+  }
+}
