@@ -1,9 +1,8 @@
-# Industrias Nova — Demo guiada y rígida
+# Industrias Nova — Flujo comercial corregido
 
-Esta versión usa un recorrido comercial fijo.
+La demo pregunta uno por uno todos los datos faltantes:
 
-## Flujo
-1. Necesidad o producto.
+1. Necesidad.
 2. Cantidad.
 3. Compra única o recurrente.
 4. Localidad o zona.
@@ -12,4 +11,4 @@ Esta versión usa un recorrido comercial fijo.
 7. WhatsApp o email.
 8. Resumen final.
 
-La demo no confirma un registro antes de completar los datos necesarios.
+Puede reconocer cantidad y frecuencia en el primer mensaje, pero nunca reutiliza ese mismo mensaje para completar campos posteriores.
