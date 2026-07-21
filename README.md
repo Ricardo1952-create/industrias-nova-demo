@@ -19,3 +19,10 @@ Soy Martín de Envapack. Necesitamos cotizar 500 unidades mensuales de un compon
 ## Próximo paso
 
 Conectar la burbuja al backend, al asistente real y a Google Sheets.
+
+
+## Cambio de experiencia de demo
+
+- El chat se abre automáticamente al cargar la página.
+- El botón principal ahora dice “Probar el asistente ahora” y abre el chat.
+- El saludo inicial explica de inmediato que la demo es interactiva.
