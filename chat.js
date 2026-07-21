@@ -2,17 +2,8 @@ const chatForm = document.getElementById("chat-form");
 const chatInput = document.getElementById("chat-input");
 const chatMessages = document.getElementById("chat-messages");
 
-const lead = {
-  necesidad: "",
-  cantidad: "",
-  frecuencia: "",
-  localidad: "",
-  urgencia: "",
-  nombreEmpresa: "",
-  contacto: ""
-};
-
-let expectedField = "initial";
+let formShown = false;
+let completed = false;
 
 window.addEventListener("load", () => {
   chatInput.focus();
@@ -22,138 +13,145 @@ chatForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const text = chatInput.value.trim();
-  if (!text) return;
+  if (!text || completed) return;
 
   addMessage(text, "user");
   chatInput.value = "";
 
-  const reply = processMessage(text);
-  window.setTimeout(() => addMessage(reply, "bot"), 450);
+  if (isQuoteRequest(text)) {
+    if (!formShown) {
+      window.setTimeout(showQuoteForm, 350);
+    } else {
+      window.setTimeout(() => {
+        addMessage(
+          "El formulario ya está disponible. Completalo para registrar la solicitud.",
+          "bot"
+        );
+      }, 350);
+    }
+    return;
+  }
+
+  window.setTimeout(() => {
+    addMessage(
+      "Esta demostración está preparada únicamente para mostrar una solicitud de cotización.\n\nPara continuar, escribí: cotizar",
+      "bot"
+    );
+  }, 350);
 });
 
-function addMessage(text, sender) {
+function normalize(text) {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[.!?¿¡]/g, "")
+    .trim();
+}
+
+function isQuoteRequest(text) {
+  const normalized = normalize(text);
+  return normalized === "cotizar" || normalized.includes("cotizacion");
+}
+
+function addMessage(text, sender, extraClass = "") {
   const message = document.createElement("div");
-  message.className = `message ${sender}`;
+  message.className = `message ${sender} ${extraClass}`.trim();
   message.textContent = text;
   chatMessages.appendChild(message);
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-function processMessage(text) {
-  if (expectedField === "initial") {
-    extractInitialData(text);
-  } else {
-    saveExpectedAnswer(expectedField, text);
-  }
+function showQuoteForm() {
+  formShown = true;
 
-  const missing = getFirstMissingField();
-
-  if (!missing) {
-    expectedField = "complete";
-    return buildSummary();
-  }
-
-  expectedField = missing;
-  return buildNextQuestion(missing);
-}
-
-function extractInitialData(text) {
-  lead.necesidad = text;
-
-  const quantityMatch = text.match(
-    /\b\d[\d.,]*\s*(?:unidades?|piezas?|equipos?|repuestos?|componentes?|kg|kilos?|metros?|litros?)?\b/i
+  addMessage(
+    "Perfecto 👍 Para que un especialista revise tu consulta y pueda responderte correctamente, completá el siguiente formulario. Recordá que para cotizar es necesario informar el CUIT de la empresa.",
+    "bot"
   );
-  if (quantityMatch) {
-    lead.cantidad = quantityMatch[0].trim();
-  }
 
-  if (/\b(mensual|mensuales|semanal|semanales|recurrente|recurrentes|todos los meses|cada mes)\b/i.test(text)) {
-    lead.frecuencia = "Recurrente";
-  } else if (/\b(única|unica|una sola vez|por única vez|por unica vez)\b/i.test(text)) {
-    lead.frecuencia = "Compra única";
-  }
+  const form = document.createElement("form");
+  form.className = "quote-form";
+  form.innerHTML = `
+    <h2>Solicitud de cotización</h2>
 
-  const urgencyMatch = text.match(
-    /\b(urgente|esta semana|este mes|lo antes posible|sin urgencia|para hoy|para mañana)\b/i
-  );
-  if (urgencyMatch) {
-    lead.urgencia = urgencyMatch[0];
-  }
+    <div class="form-grid">
+      <label>
+        Empresa
+        <input name="empresa" type="text" required />
+      </label>
 
-  const emailMatch = text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
-  const phoneMatch = text.match(/(?:\+?\d[\d\s-]{7,}\d)/);
-  if (emailMatch) {
-    lead.contacto = emailMatch[0];
-  } else if (phoneMatch) {
-    lead.contacto = phoneMatch[0];
-  }
+      <label>
+        CUIT de la empresa
+        <input
+          name="cuit"
+          type="text"
+          inputmode="numeric"
+          placeholder="XX-XXXXXXXX-X"
+          required
+        />
+      </label>
 
-  const nameCompanyMatch = text.match(
-    /(?:soy|mi nombre es)\s+(.+?)\s+(?:de|y trabajo en|de la empresa)\s+(.+?)(?:[.,]|$)/i
-  );
-  if (nameCompanyMatch) {
-    lead.nombreEmpresa = `${nameCompanyMatch[1].trim()} — ${nameCompanyMatch[2].trim()}`;
-  }
+      <label>
+        Nombre
+        <input name="nombre" type="text" required />
+      </label>
+
+      <label>
+        WhatsApp
+        <input name="whatsapp" type="tel" required />
+      </label>
+
+      <label class="full">
+        Trabajo a cotizar
+        <textarea
+          name="trabajo"
+          placeholder="Describí brevemente qué necesitás cotizar."
+          required
+        ></textarea>
+      </label>
+    </div>
+
+    <button type="submit">Enviar solicitud</button>
+    <p class="form-note">Todos los campos son obligatorios en esta demostración.</p>
+  `;
+
+  form.addEventListener("submit", handleQuoteSubmit);
+  chatMessages.appendChild(form);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  const firstInput = form.querySelector("input");
+  if (firstInput) firstInput.focus();
 }
 
-function saveExpectedAnswer(field, text) {
-  if (field === "cantidad") lead.cantidad = text;
-  if (field === "frecuencia") lead.frecuencia = text;
-  if (field === "localidad") lead.localidad = text;
-  if (field === "urgencia") lead.urgencia = text;
-  if (field === "nombreEmpresa") lead.nombreEmpresa = text;
-  if (field === "contacto") lead.contacto = text;
-}
+function handleQuoteSubmit(event) {
+  event.preventDefault();
+  if (completed) return;
 
-function getFirstMissingField() {
-  const order = [
-    "necesidad",
-    "cantidad",
-    "frecuencia",
-    "localidad",
-    "urgencia",
-    "nombreEmpresa",
-    "contacto"
-  ];
+  const form = event.currentTarget;
+  if (!form.reportValidity()) return;
 
-  return order.find((field) => !lead[field]) || null;
-}
+  completed = true;
 
-function buildNextQuestion(field) {
-  const questions = {
-    necesidad: "¿Qué producto, repuesto, equipo o servicio necesitás?",
-    cantidad: "¿Qué cantidad aproximada necesitás?",
-    frecuencia: "¿Se trata de una compra única o de una necesidad recurrente, por ejemplo mensual?",
-    localidad: "¿En qué localidad o zona debería entregarse el producto o realizarse el servicio?",
-    urgencia: "¿Para cuándo lo necesitás? Podés indicar: esta semana, este mes o sin urgencia.",
-    nombreEmpresa: "¿Me indicás tu nombre y la empresa a la que pertenecés?",
-    contacto: "Por último, dejame un WhatsApp o un email para que el responsable comercial pueda contactarte."
-  };
+  form.querySelectorAll("input, textarea, button").forEach((element) => {
+    element.disabled = true;
+  });
 
-  const detected = [];
-  if (lead.cantidad) detected.push(`la cantidad (${lead.cantidad})`);
-  if (lead.frecuencia) detected.push(`que es una necesidad ${lead.frecuencia.toLowerCase()}`);
+  chatForm.style.display = "none";
 
-  let intro = "Perfecto. Para preparar la consulta para el área comercial, necesito completar algunos datos.";
-  if (detected.length) {
-    intro += ` Ya registré ${detected.join(" y ")}.`;
-  }
+  window.setTimeout(() => {
+    addMessage(
+      "Perfecto 👍 Ya registramos tu solicitud. Un asesor revisará tu consulta y se comunicará con vos dentro de nuestro horario de atención, de lunes a viernes de 8 a 17 hs.",
+      "bot",
+      "success"
+    );
 
-  return `${intro}\n\n${questions[field]}`;
-}
-
-function buildSummary() {
-  return `Perfecto. Ahora sí, la consulta quedó preparada para el seguimiento comercial.
-
-Resumen:
-- Necesidad: ${lead.necesidad}
-- Cantidad: ${lead.cantidad}
-- Tipo de compra: ${lead.frecuencia}
-- Localidad o zona: ${lead.localidad}
-- Urgencia: ${lead.urgencia}
-- Nombre y empresa: ${lead.nombreEmpresa}
-- Contacto: ${lead.contacto}
-- Estado: Nuevo potencial cliente
-
-En una implementación real, estos datos se registrarían automáticamente en una planilla y se enviaría un aviso al responsable comercial.`;
+    window.setTimeout(() => {
+      addMessage(
+        "Además, en el agente real que prepare para tu empresa, también podrá responder consultas sobre disponibilidad, repuestos, horarios de atención presencial, productos técnicos o pedidos de contacto con ventas.",
+        "bot",
+        "info"
+      );
+    }, 450);
+  }, 350);
 }

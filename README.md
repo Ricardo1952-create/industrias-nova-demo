@@ -1,14 +1,29 @@
-# Industrias Nova — Flujo comercial corregido
+# Industrias Nova — Demo final de cotización
 
-La demo pregunta uno por uno todos los datos faltantes:
+Esta versión muestra un único recorrido, totalmente dirigido.
 
-1. Necesidad.
-2. Cantidad.
-3. Compra única o recurrente.
-4. Localidad o zona.
-5. Urgencia.
-6. Nombre y empresa.
-7. WhatsApp o email.
-8. Resumen final.
+## Mensaje inicial
 
-Puede reconocer cantidad y frecuencia en el primer mensaje, pero nunca reutiliza ese mismo mensaje para completar campos posteriores.
+Hola, soy el asistente comercial de Industrias Nova.
+
+Podés probarme ahora mismo. Escribime una consulta sobre una cotización.
+
+## Flujo
+
+1. El visitante escribe `cotizar` o una frase que incluya `cotización`.
+2. El asistente muestra el mensaje de inicio del trámite.
+3. Aparece un formulario obligatorio con:
+   - Empresa
+   - CUIT
+   - Nombre
+   - WhatsApp
+   - Trabajo a cotizar
+4. Al enviarlo, aparece la confirmación de registro.
+5. Finalmente se explica que el agente real también podrá responder:
+   - Disponibilidad
+   - Repuestos
+   - Horarios de atención presencial
+   - Productos técnicos
+   - Pedidos de contacto con ventas
+
+Cualquier otra consulta recibe una indicación para escribir `cotizar`.

@@ -11,7 +11,10 @@
   --dark: #111827;
   --accent: #2457ff;
   --accent-dark: #153fd0;
-  --soft: #eaf0ff;
+  --success-bg: #f1fbf5;
+  --success-line: #b7dfc5;
+  --info-bg: #eef4ff;
+  --info-line: #c9d8ff;
   --shadow: 0 20px 60px rgba(21, 32, 51, 0.14);
 }
 
@@ -71,8 +74,8 @@ h1 {
 }
 
 .chat-panel {
-  height: min(670px, calc(100vh - 190px));
-  min-height: 500px;
+  height: min(690px, calc(100vh - 190px));
+  min-height: 540px;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 24px;
@@ -121,7 +124,7 @@ h1 {
 }
 
 .message {
-  max-width: 82%;
+  max-width: 88%;
   padding: 14px 16px;
   border-radius: 16px;
   margin-bottom: 12px;
@@ -138,6 +141,16 @@ h1 {
   margin-left: auto;
   background: var(--accent);
   color: white;
+}
+
+.message.success {
+  background: var(--success-bg);
+  border-color: var(--success-line);
+}
+
+.message.info {
+  background: var(--info-bg);
+  border-color: var(--info-line);
 }
 
 .chat-form {
@@ -157,24 +170,91 @@ h1 {
   font-size: 16px;
 }
 
-.chat-form input:focus {
+.chat-form input:focus,
+.quote-form input:focus,
+.quote-form textarea:focus {
   outline: 3px solid rgba(36, 87, 255, .15);
   border-color: var(--accent);
 }
 
-.chat-form button {
+.chat-form button,
+.quote-form button {
   border: 0;
   border-radius: 13px;
   background: var(--accent);
   color: white;
-  padding: 0 22px;
   font-weight: 700;
-  font-size: 15px;
   cursor: pointer;
 }
 
-.chat-form button:hover {
+.chat-form button {
+  padding: 0 22px;
+  font-size: 15px;
+}
+
+.chat-form button:hover,
+.quote-form button:hover {
   background: var(--accent-dark);
+}
+
+.quote-form {
+  max-width: 96%;
+  margin: 0 0 14px;
+  padding: 18px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.quote-form h2 {
+  margin: 0 0 14px;
+  font-size: 18px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.quote-form label {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.quote-form input,
+.quote-form textarea {
+  width: 100%;
+  margin-top: 5px;
+  padding: 11px 12px;
+  border: 1px solid #b8c2d1;
+  border-radius: 10px;
+  font: inherit;
+  color: var(--text);
+}
+
+.quote-form textarea {
+  min-height: 82px;
+  resize: vertical;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.quote-form button {
+  width: 100%;
+  margin-top: 14px;
+  padding: 13px;
+  font-size: 15px;
+}
+
+.form-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .demo-note {
@@ -212,7 +292,7 @@ h1 {
 
   .chat-panel {
     height: calc(100vh - 155px);
-    min-height: 460px;
+    min-height: 500px;
     border-radius: 18px;
   }
 
@@ -228,8 +308,17 @@ h1 {
     padding: 14px;
   }
 
-  .message {
-    max-width: 92%;
+  .message,
+  .quote-form {
+    max-width: 100%;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full {
+    grid-column: auto;
   }
 
   .chat-form {
